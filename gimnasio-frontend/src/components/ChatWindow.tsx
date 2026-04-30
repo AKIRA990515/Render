@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Box, Paper, Typography, TextField, IconButton, Chip, useTheme, Avatar, Stack } from '@mui/material';
+import { Box, Paper, Typography, TextField, IconButton, Chip, useTheme, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useSocket } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
@@ -60,7 +60,7 @@ export default function ChatWindow() {
             borderRadius: 2,
           }}
         >
-          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+          <Stack direction="row" spacing={1} sx={{ mb: 0.5, alignItems: 'center' }}>
             <Typography
               variant="caption"
               sx={{

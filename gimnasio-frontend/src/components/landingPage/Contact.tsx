@@ -1,4 +1,4 @@
-import { Box, Container, Grid, TextField, Button, Typography, MenuItem, List, ListItem, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { Box, Container, Grid, TextField, Button, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { useState } from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -23,7 +23,6 @@ const contactInfo = [
 ];
 
 export default function Contact() {
-  const theme = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',

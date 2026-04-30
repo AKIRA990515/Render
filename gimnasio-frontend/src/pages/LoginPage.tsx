@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Box, Container, TextField, Button, Typography, Paper, Alert, Link, useTheme } from '@mui/material';
+import { Box, Container, TextField, Button, Typography, Paper, Alert, Link } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
-  const theme = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -59,7 +58,7 @@ export default function LoginPage() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -71,7 +70,7 @@ export default function LoginPage() {
               required
               sx={{ mb: 3 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <Button type="submit" variant="contained" fullWidth size="large" disabled={loading}>

@@ -14,7 +14,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import UpdateIcon from '@mui/icons-material/Update';
 import LockIcon from '@mui/icons-material/Lock';
 import { useAuth } from '../context/AuthContext';
-import { usersApi, authApi } from '../services/api';
+import { usersApi, User } from '../services/api';
 
 export default function ProfilePage() {
   const theme = useTheme();
@@ -85,8 +85,8 @@ export default function ProfilePage() {
     reader.onload = async () => {
       try {
         const base64 = reader.result as string;
-        await usersApi.update(user!.id, { avatar: base64 });
-        const updatedUser = { ...user, avatar: base64 };
+        const res = await usersApi.update(user!.id, { avatar: base64 });
+        const updatedUser: User = { ...user!, ...res.data };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         setSuccess('Avatar actualizado correctamente');
@@ -134,7 +134,7 @@ export default function ProfilePage() {
     try {
       const newStatus = !user?.isActive;
       const res = await usersApi.update(user!.id, { isActive: newStatus });
-      const updatedUser = { ...user, ...res.data };
+      const updatedUser: User = { ...user!, ...res.data };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       setSuccess(newStatus ? 'Usuario activado' : 'Usuario desactivado');

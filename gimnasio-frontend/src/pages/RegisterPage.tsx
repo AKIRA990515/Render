@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Box, Container, TextField, Button, Typography, Paper, Alert, Link, useTheme } from '@mui/material';
+import { Box, Container, TextField, Button, Typography, Paper, Alert, Link } from '@mui/material';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function RegisterPage() {
-  const theme = useTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -83,7 +82,7 @@ export default function RegisterPage() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -95,7 +94,7 @@ export default function RegisterPage() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -106,7 +105,7 @@ export default function RegisterPage() {
               onChange={(e) => setPhone(e.target.value)}
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -118,7 +117,7 @@ export default function RegisterPage() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -130,7 +129,7 @@ export default function RegisterPage() {
               required
               sx={{ mb: 3 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <Button type="submit" variant="contained" fullWidth size="large" disabled={loading}>

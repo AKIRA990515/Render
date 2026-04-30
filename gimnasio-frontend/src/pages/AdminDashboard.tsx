@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Grid, Card, CardContent, Typography, CircularProgress, Box, useTheme } from '@mui/material';
+import { Container, Grid, Card, CardContent, Typography, CircularProgress, Box } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PersonIcon from '@mui/icons-material/Person';
@@ -14,7 +14,6 @@ interface Stats {
 }
 
 export default function AdminDashboard() {
-  const theme = useTheme();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 

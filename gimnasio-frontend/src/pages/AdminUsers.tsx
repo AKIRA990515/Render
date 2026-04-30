@@ -33,7 +33,7 @@ export default function AdminUsers() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [formData, setFormData] = useState({ name: '', email: '', role: 'member', password: '' });
+  const [formData, setFormData] = useState<{ name: string; email: string; role: 'member' | 'instructor' | 'admin'; password: string }>({ name: '', email: '', role: 'member', password: '' });
   const [error, setError] = useState('');
 
   const fetchUsers = async () => {
@@ -55,7 +55,7 @@ export default function AdminUsers() {
   const handleOpenDialog = (user?: User) => {
     if (user) {
       setSelectedUser(user);
-      setFormData({ name: user.name, email: user.email, role: user.role, password: '' });
+      setFormData({ name: user.name, email: user.email, role: user.role as 'member' | 'instructor' | 'admin', password: '' });
     } else {
       setSelectedUser(null);
       setFormData({ name: '', email: '', role: 'member', password: '' });
@@ -171,7 +171,7 @@ export default function AdminUsers() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -183,7 +183,7 @@ export default function AdminUsers() {
               required
               sx={{ mb: 2 }}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             <TextField
@@ -191,7 +191,7 @@ export default function AdminUsers() {
               fullWidth
               label="Rol"
               value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, role: e.target.value as 'member' | 'instructor' | 'admin' })}
               sx={{ mb: 2 }}
             >
               {roles.map((r) => <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>)}
@@ -204,7 +204,7 @@ export default function AdminUsers() {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required={!selectedUser}
               slotProps={{
-                outline: { sx: { bgcolor: 'background.default' } }
+                input: { sx: { bgcolor: 'background.default' } }
               }}
             />
             {error && <Alert severity="error" sx={alertStyle}>{error}</Alert>}

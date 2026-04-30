@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { getSocket, disconnectSocket, ChatMessage } from '../services/socket';
-import { io } from 'socket.io-client';
 
 interface SocketContextType {
   isConnected: boolean;

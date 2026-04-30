@@ -22,6 +22,9 @@ import { Message } from './chat/entities/message.entity';
         database: configService.get<string>('DB_DATABASE'),
         entities: [User, Message],
         synchronize: true,
+        ssl: {
+          rejectUnauthorized: false, // Render usa certificados válidos, pero esta opción evita problemas
+        },
       }),
     }),
     UsersModule,

@@ -36,7 +36,7 @@ export default function Pricing() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: 10, bgcolor: 'background.default' }}>
+    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: 'background.default' }}>
       <Container maxWidth="lg">
         <Typography
           variant="h2"
@@ -46,19 +46,19 @@ export default function Pricing() {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ textAlign: 'center', mb: 6, color: 'text.secondary' }}
+          sx={{ textAlign: 'center', mb: { xs: 4, md: 6 }, color: 'text.secondary' }}
         >
           Elige el plan que mejor se adapte a tus objetivos
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={{ xs: 2, md: 4 }}>
           {plans.map((plan, index) => (
             <Grid key={index} size={{ xs: 12, md: 4 }}>
               <Box
                 sx={{
                   bgcolor: 'background.paper',
                   borderRadius: 3,
-                  height: 520,
+                  minHeight: { xs: 400, md: 520 },
                   display: 'flex',
                   flexDirection: 'column',
                   border: `2px solid ${theme.palette.divider}`,

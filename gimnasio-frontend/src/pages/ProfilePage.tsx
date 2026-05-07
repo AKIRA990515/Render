@@ -183,16 +183,16 @@ export default function ProfilePage() {
 
   return (
     <Container maxWidth={false} sx={{ width: '100%', maxWidth: 900, height: '100%' }}>
-      <Paper sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 3, width: '100%' }}>
+      <Paper sx={{ p: { xs: 2, md: 4 }, bgcolor: 'background.paper', borderRadius: 3, width: '100%' }}>
         <Box sx={{ position: 'relative', display: 'inline-block', mb: 3 }}>
           <Avatar
             src={user.avatar}
             sx={{
-              width: 120,
-              height: 120,
+              width: { xs: 80, md: 120 },
+              height: { xs: 80, md: 120 },
               mx: 'auto',
               bgcolor: theme.palette.primary.main,
-              fontSize: '3rem',
+              fontSize: { xs: '2rem', md: '3rem' },
             }}
           >
             {user.name?.charAt(0).toUpperCase() || 'U'}
@@ -203,8 +203,8 @@ export default function ProfilePage() {
                 onClick={() => fileInputRef.current?.click()}
                 sx={{
                   position: 'absolute',
-                  bottom: 0,
-                  right: 'calc(50% - 60px)',
+                  bottom: { xs: -4, md: 0 },
+                  right: { xs: 'calc(50% - 40px)', md: 'calc(50% - 60px)' },
                   bgcolor: theme.palette.primary.main,
                   color: '#fff',
                   '&:hover': { bgcolor: theme.palette.primary.dark },

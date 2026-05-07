@@ -14,7 +14,7 @@ export default function Footer() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', py: 4, borderTop: `1px solid ${theme.palette.divider}` }}>
+    <Box sx={{ bgcolor: 'background.paper', py: { xs: 3, md: 4 }, borderTop: `1px solid ${theme.palette.divider}` }}>
       <Container maxWidth="lg">
         <Grid container spacing={2} sx={{ alignItems: 'center' }}>
           <Grid size={{ xs: 12, md: 4 }}>
@@ -22,13 +22,13 @@ export default function Footer() {
               component="img"
               src={logo}
               alt="RoFitness Logo"
-              sx={{ height: 40, width: 'auto' }}
+              sx={{ height: { xs: 30, md: 40 }, width: 'auto' }}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography
               variant="body2"
-              sx={{ color: 'text.secondary', textAlign: { xs: 'center', md: 'left' } }}
+              sx={{ color: 'text.secondary', textAlign: { xs: 'center', md: 'left' }, fontSize: { xs: '0.75rem', md: '0.875rem' } }}
             >
               © 2024 RoFitness Santiago de Cuba. Todos los derechos reservados.
             </Typography>

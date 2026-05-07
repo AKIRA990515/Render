@@ -1,4 +1,5 @@
-import { Box, AppBar, Toolbar, Typography, IconButton, Tooltip, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { useState } from 'react';
+import { Box, AppBar, Toolbar, Typography, IconButton, Tooltip, Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme, Drawer, useMediaQuery } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -9,6 +10,8 @@ import ChatIcon from '@mui/icons-material/Chat';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailIcon from '@mui/icons-material/Email';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeContext';
@@ -23,6 +26,8 @@ export default function UserLayout() {
   const { logout, isAdmin } = useAuth();
   const { isDark, toggleTheme } = useThemeMode();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const getPageTitle = () => {
     const path = location.pathname;
@@ -37,6 +42,47 @@ export default function UserLayout() {
   };
 
   const color = theme.palette.primary.main;
+
+  const SidebarContent = () => (
+    <>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => { navigate('/user/profile'); setDrawerOpen(false); }}>
+            <ListItemIcon sx={{ color }}><PersonIcon /></ListItemIcon>
+            <ListItemText primary="Mi Perfil" sx={{ color: theme.palette.text.primary }} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => { navigate('/user/chat'); setDrawerOpen(false); }}>
+            <ListItemIcon sx={{ color }}><ChatIcon /></ListItemIcon>
+            <ListItemText primary="Chat Grupal" sx={{ color: theme.palette.text.primary }} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      {isAdmin && (
+        <Box sx={{ p: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<DashboardIcon />}
+            onClick={() => { navigate('/admin/dashboard'); setDrawerOpen(false); }}
+            sx={{
+              bgcolor: theme.palette.error.main,
+              '&:hover': { bgcolor: theme.palette.error.dark },
+            }}
+          >
+            Panel de Administración
+          </Button>
+        </Box>
+      )}
+      <Box sx={{ mt: 'auto', p: 2 }}>
+        <ListItemButton onClick={() => { handleLogout(); setDrawerOpen(false); }}>
+          <ListItemIcon sx={{ color: '#f44336' }}><LogoutIcon /></ListItemIcon>
+          <ListItemText primary="Cerrar sesión" sx={{ color: '#f44336' }} />
+        </ListItemButton>
+      </Box>
+    </>
+  );
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -53,33 +99,43 @@ export default function UserLayout() {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" sx={{ color }}>
-            {getPageTitle()}
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Tooltip title="Ir a página principal">
-              <Button
-                component="a"
-                href="/"
-                target="_blank"
-                startIcon={<OpenInNewIcon />}
-                sx={{ color }}
-              >
-                Ver sitio
-              </Button>
-            </Tooltip>
-            <Tooltip title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}>
-              <IconButton
-                onClick={toggleTheme}
-                sx={{
-                  color,
-                  '&:hover': { bgcolor: `${color}22` },
-                }}
-              >
-                {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+          {isMobile ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}>
+              <IconButton onClick={() => setDrawerOpen(true)} sx={{ color }}>
+                <MenuIcon />
               </IconButton>
-            </Tooltip>
-          </Box>
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <Tooltip title="Ir a página principal">
+                  <IconButton component="a" href="/" target="_blank" sx={{ color }}>
+                    <OpenInNewIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}>
+                  <IconButton onClick={toggleTheme} sx={{ color }}>
+                    {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </Box>
+          ) : (
+            <>
+              <Typography variant="h6" sx={{ color }}>
+                {getPageTitle()}
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Tooltip title="Ir a página principal">
+                  <Button component="a" href="/" target="_blank" startIcon={<OpenInNewIcon />} sx={{ color }}>
+                    Ver sitio
+                  </Button>
+                </Tooltip>
+                <Tooltip title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}>
+                  <IconButton onClick={toggleTheme} sx={{ color, '&:hover': { bgcolor: `${color}22` } }}>
+                    {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -94,54 +150,41 @@ export default function UserLayout() {
           alignItems: 'flex-start',
         }}
       >
-        {/* SIDEBAR */}
-        <Box
-          sx={{
-            width: SIDEBAR_WIDTH,
-            height: 'calc(100vh - 128px)',
-            flexShrink: 0,
-            bgcolor: theme.palette.background.paper,
-            borderRight: `1px solid ${theme.palette.divider}`,
-            overflow: 'auto',
+        {/* SIDEBAR - Desktop */}
+        {!isMobile && (
+          <Box
+            sx={{
+              width: SIDEBAR_WIDTH,
+              height: 'calc(100vh - 128px)',
+              flexShrink: 0,
+              bgcolor: theme.palette.background.paper,
+              borderRight: `1px solid ${theme.palette.divider}`,
+              overflow: 'auto',
+            }}
+          >
+            <SidebarContent />
+          </Box>
+        )}
+
+        {/* SIDEBAR - Mobile Drawer */}
+        <Drawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          Paper={{
+            sx: {
+              width: SIDEBAR_WIDTH,
+              bgcolor: theme.palette.background.paper,
+            },
           }}
         >
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate('/user/profile')}>
-                <ListItemIcon sx={{ color }}><PersonIcon /></ListItemIcon>
-                <ListItemText primary="Mi Perfil" sx={{ color: theme.palette.text.primary }} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate('/user/chat')}>
-                <ListItemIcon sx={{ color }}><ChatIcon /></ListItemIcon>
-                <ListItemText primary="Chat Grupal" sx={{ color: theme.palette.text.primary }} />
-              </ListItemButton>
-            </ListItem>
-          </List>
-          {isAdmin && (
-            <Box sx={{ p: 2 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                startIcon={<DashboardIcon />}
-                onClick={() => navigate('/admin/dashboard')}
-                sx={{
-                  bgcolor: theme.palette.error.main,
-                  '&:hover': { bgcolor: theme.palette.error.dark },
-                }}
-              >
-                Panel de Administración
-              </Button>
-            </Box>
-          )}
-          <Box sx={{ mt: 'auto', p: 2 }}>
-            <ListItemButton onClick={handleLogout}>
-              <ListItemIcon sx={{ color: '#f44336' }}><LogoutIcon /></ListItemIcon>
-              <ListItemText primary="Cerrar sesión" sx={{ color: '#f44336' }} />
-            </ListItemButton>
+          <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
           </Box>
-        </Box>
+          <SidebarContent />
+        </Drawer>
 
         {/* MAIN */}
         <Box
@@ -149,8 +192,9 @@ export default function UserLayout() {
           sx={{
             flex: 1,
             height: 'calc(100vh - 128px)',
-            p: 3,
+            p: { xs: 2, md: 3 },
             overflow: 'auto',
+            width: { xs: '100%', md: `calc(100% - ${SIDEBAR_WIDTH}px)` },
           }}
         >
           <Outlet />

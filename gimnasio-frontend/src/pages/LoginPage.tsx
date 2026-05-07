@@ -27,10 +27,10 @@ export default function LoginPage() {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', alignItems: 'center', py: { xs: 2, md: 0 } }}>
       <Container maxWidth="xs">
-        <Paper sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 3 }}>
-          <Typography variant="h3" sx={{ textAlign: 'center', mb: 3, color: 'primary.main' }}>
+        <Paper sx={{ p: { xs: 3, md: 4 }, bgcolor: 'background.paper', borderRadius: 3 }}>
+          <Typography variant="h4" sx={{ textAlign: 'center', mb: 3, color: 'primary.main', fontSize: { xs: '1.5rem', md: '2rem' } }}>
             RoFitness Admin
           </Typography>
           {error && (

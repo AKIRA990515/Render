@@ -53,8 +53,8 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <Container maxWidth={false} sx={{ width: '100%', height: '100%' }}>
-      <Typography variant="h2" sx={{ mb: 4, color: 'text.primary' }}>
+    <Container maxWidth={false} sx={{ width: '100%', height: '100%', px: { xs: 1, md: 0 } }}>
+      <Typography variant="h3" sx={{ mb: { xs: 2, md: 4 }, color: 'text.primary', fontSize: { xs: '1.5rem', md: '2rem' } }}>
         Dashboard
       </Typography>
       <Grid container spacing={3}>

@@ -27,7 +27,7 @@ export default function Testimonials() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: 10, bgcolor: 'background.default' }}>
+    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: 'background.default' }}>
       <Container maxWidth="lg">
         <Typography
           variant="h2"
@@ -37,19 +37,19 @@ export default function Testimonials() {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ textAlign: 'center', mb: 6, color: 'text.secondary' }}
+          sx={{ textAlign: 'center', mb: { xs: 4, md: 6 }, color: 'text.secondary' }}
         >
           Historias que nos inspiran a seguir mejorando
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={{ xs: 2, md: 4 }}>
           {testimonials.map((testimonial, index) => (
             <Grid key={index} size={{ xs: 12, md: 4 }}>
               <Box
                 sx={{
                   bgcolor: 'background.paper',
                   borderRadius: 3,
-                  p: 4,
+                  p: { xs: 3, md: 4 },
                   height: '100%',
                 }}
               >

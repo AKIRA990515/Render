@@ -116,8 +116,8 @@ export default function AdminUsers() {
 
       {error && <Alert severity="error" sx={alertStyle} onClose={() => setError('')}>{error}</Alert>}
 
-      <TableContainer component={Paper} sx={{ bgcolor: 'background.paper', borderRadius: 2, width: '100%' }}>
-        <Table>
+      <TableContainer component={Paper} sx={{ bgcolor: 'background.paper', borderRadius: 2, width: '100%', overflowX: 'auto', minHeight: 200 }}>
+        <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell sx={{ color: 'primary.main', fontWeight: 'bold' }}>Nombre</TableCell>

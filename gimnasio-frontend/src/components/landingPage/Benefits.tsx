@@ -19,7 +19,7 @@ export default function Benefits() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: 10, bgcolor: 'background.default' }}>
+    <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: 'background.default' }}>
       <Container maxWidth="lg">
         <Typography
           variant="h2"
@@ -29,18 +29,18 @@ export default function Benefits() {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ textAlign: 'center', mb: 6, color: 'text.secondary' }}
+          sx={{ textAlign: 'center', mb: { xs: 4, md: 6 }, color: 'text.secondary' }}
         >
           Todo lo que necesitas para transformar tu cuerpo y tu vida
         </Typography>
 
-        <Grid container spacing={4} sx={{ mb: 6 }}>
+        <Grid container spacing={{ xs: 2, md: 4 }} sx={{ mb: { xs: 4, md: 6 } }}>
           {benefits.map((benefit, index) => (
             <Grid key={index} size={{ xs: 12, md: 6 }}>
               <Box
                 sx={{
                   textAlign: 'center',
-                  p: 4,
+                  p: { xs: 3, md: 4 },
                   bgcolor: 'background.paper',
                   borderRadius: 3,
                   height: '100%',

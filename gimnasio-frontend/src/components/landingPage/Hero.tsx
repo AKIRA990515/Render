@@ -89,8 +89,8 @@ export default function Hero() {
     <Box
       sx={{
         position: 'relative',
-        height: '100vh',
-        minHeight: 600,
+        height: { xs: '80vh', md: '100vh' },
+        minHeight: { xs: 500, md: 600 },
         overflow: 'hidden',
       }}
     >
@@ -116,12 +116,12 @@ export default function Hero() {
             }}
           >
             <Container maxWidth="lg">
-              <Box sx={{ maxWidth: 700 }}>
+              <Box sx={{ maxWidth: { xs: 300, md: 700 }, px: { xs: 2, md: 0 } }}>
                 <Typography
                   variant="h1"
                   sx={{
                     mb: 3,
-                    fontSize: { xs: '2rem', md: '3.5rem' },
+                    fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' },
                     textShadow: theme.palette.mode === 'dark'
                       ? '2px 2px 4px rgba(0,0,0,0.5)'
                       : '2px 2px 4px rgba(0,0,0,0.3)',
@@ -135,6 +135,7 @@ export default function Hero() {
                   sx={{
                     mb: 4,
                     fontWeight: 400,
+                    fontSize: { xs: '1rem', md: '1.25rem' },
                     color: 'primary.dark',
                     textShadow: theme.palette.mode === 'light'
                       ? '1px 1px 2px rgba(255,255,255,0.8)'
@@ -149,9 +150,9 @@ export default function Hero() {
                   size="large"
                   href="#registro"
                   sx={{
-                    fontSize: '1.2rem',
-                    px: 5,
-                    py: 1.5,
+                    fontSize: { xs: '1rem', md: '1.2rem' },
+                    px: { xs: 3, md: 5 },
+                    py: { xs: 1, md: 1.5 },
                     boxShadow: `0 4px 20px ${theme.palette.primary.main}66`,
                     '&:hover': {
                       transform: 'scale(1.05)',
@@ -163,7 +164,7 @@ export default function Hero() {
                 </Button>
 
                 {slide.showStats && (
-                  <Box sx={{ mt: 4, display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                  <Box sx={{ mt: 4, display: 'flex', gap: { xs: 2, md: 4 }, flexWrap: 'wrap' }}>
                     <Box>
                       <Typography variant="h3" sx={{ color: 'primary.main' }}>+200</Typography>
                       <Typography variant="body2" sx={{
@@ -182,7 +183,7 @@ export default function Hero() {
                         Tasa de retención
                       </Typography>
                     </Box>
-                    <Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                       <Typography variant="h3" sx={{ color: 'primary.main' }}>5★</Typography>
                       <Typography variant="body2" sx={{
                         color: theme.palette.mode === 'dark' ? 'text.secondary' : 'primary.dark',

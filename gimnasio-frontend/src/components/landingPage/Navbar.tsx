@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppBar, Toolbar, Box, Button, Container, IconButton, Tooltip, useTheme, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from '@mui/material';
+import { AppBar, Toolbar, Box, Button, Container, IconButton, Tooltip, useTheme, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery, Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
@@ -8,9 +8,10 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function Navbar() {
-  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const { isDark, toggleTheme } = useThemeMode();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -31,23 +32,6 @@ export default function Navbar() {
           {isDark ? <LightModeIcon /> : <DarkModeIcon />}
         </IconButton>
       </Tooltip>
-      {isAdmin && (
-        <Button
-          component={Link}
-          to="/admin/dashboard"
-          variant="outlined"
-          sx={{
-            color: theme.palette.primary.main,
-            borderColor: theme.palette.primary.main,
-            '&:hover': {
-              borderColor: theme.palette.primary.main,
-              bgcolor: `${theme.palette.primary.main}22`,
-            },
-          }}
-        >
-          Panel Admin
-        </Button>
-      )}
       {!isAuthenticated && (
         <>
           <Button
@@ -80,16 +64,51 @@ export default function Navbar() {
         </>
       )}
       {isAuthenticated && (
-        <Button
-          variant="outlined"
-          onClick={logout}
-          sx={{
-            color: '#f44336',
-            borderColor: '#f44336',
-          }}
-        >
-          Cerrar sesión
-        </Button>
+        <>
+          <Button
+            component={Link}
+            to="/user/profile"
+            variant="outlined"
+            startIcon={user?.avatar ? <Avatar src={user.avatar} sx={{ width: 24, height: 24 }} /> : <PersonIcon />}
+            sx={{
+              color: theme.palette.primary.main,
+              borderColor: theme.palette.primary.main,
+              '&:hover': {
+                borderColor: theme.palette.primary.main,
+                bgcolor: `${theme.palette.primary.main}22`,
+              },
+            }}
+          >
+            Mi Perfil
+          </Button>
+          {isAdmin && (
+            <Button
+              component={Link}
+              to="/admin/dashboard"
+              variant="outlined"
+              sx={{
+                color: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main,
+                '&:hover': {
+                  borderColor: theme.palette.primary.main,
+                  bgcolor: `${theme.palette.primary.main}22`,
+                },
+              }}
+            >
+              Panel Admin
+            </Button>
+          )}
+          <Button
+            variant="outlined"
+            onClick={logout}
+            sx={{
+              color: '#f44336',
+              borderColor: '#f44336',
+            }}
+          >
+            Cerrar sesión
+          </Button>
+        </>
       )}
     </>
   );
@@ -153,33 +172,56 @@ export default function Navbar() {
             <CloseIcon />
           </IconButton>
         </Box>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/login"
-              onClick={() => setDrawerOpen(false)}
-            >
-              <ListItemText primary="Iniciar sesión" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/register"
-              onClick={() => setDrawerOpen(false)}
-            >
-              <ListItemText primary="Registrarme" />
-            </ListItemButton>
-          </ListItem>
-          {isAuthenticated && (
+        {!isAuthenticated ? (
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/login"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <ListItemText primary="Iniciar sesión" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/register"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <ListItemText primary="Registrarme" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        ) : (
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton
+                component={Link}
+                to="/user/profile"
+                onClick={() => setDrawerOpen(false)}
+              >
+                <ListItemText primary="Mi Perfil" />
+              </ListItemButton>
+            </ListItem>
+            {isAdmin && (
+              <ListItem disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to="/admin/dashboard"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <ListItemText primary="Panel Admin" />
+                </ListItemButton>
+              </ListItem>
+            )}
             <ListItem disablePadding>
               <ListItemButton onClick={() => { logout(); setDrawerOpen(false); }}>
                 <ListItemText primary="Cerrar sesión" sx={{ color: '#f44336' }} />
               </ListItemButton>
             </ListItem>
-          )}
-        </List>
+          </List>
+        )}
       </Drawer>
     </>
   );

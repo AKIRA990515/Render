@@ -66,8 +66,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     console.log('[SOCKET] Refresh token received:', refreshToken ? 'yes - ' + refreshToken.substring(0, 20) + '...' : 'no');
     
     if (!accessToken) {
-      console.log('[SOCKET] ❌ No access token, disconnecting');
-      client.disconnect();
+      console.log('[SOCKET] ❌ No access token, desconectando');
+      client.disconnect(true);
       return;
     }
 
@@ -81,7 +81,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       const user = await this.usersService.findOne(payload.sub);
       if (!user) {
         console.log('[SOCKET] ❌ User not found in database');
-        client.disconnect();
+        client.disconnect(true);
         return;
       }
 
@@ -93,6 +93,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       const messages = await this.chatService.getMessages(50);
       client.emit('history', messages.reverse());
       console.log('[SOCKET] ═══════════════════════════════════════');
+      return;
     } catch (err: any) {
       console.error('[SOCKET] ❌ Connection error:', err.message || err.name);
       console.log('[SOCKET] Error type:', err.name);
@@ -102,7 +103,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         
         if (!refreshToken) {
           console.log('[SOCKET] ❌ No refresh token disponible, desconectando');
-          client.disconnect();
+          client.disconnect(true);
           return;
         }
         
@@ -131,7 +132,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
           const user = await this.usersService.findOne(payload.sub);
           if (!user) {
             console.log('[SOCKET] ❌ User not found after refresh');
-            client.disconnect();
+            client.disconnect(true);
             return;
           }
 
@@ -143,16 +144,20 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
           const messages = await this.chatService.getMessages(50);
           client.emit('history', messages.reverse());
           console.log('[SOCKET] ═══════════════════════════════════════');
+          return;
         } catch (refreshErr: any) {
           console.error('[SOCKET] ❌ Refresh fallido:', refreshErr.message || refreshErr.name);
           console.log('[SOCKET] 💀 Desconectando cliente por refresh fallido');
-          client.disconnect();
+          client.disconnect(true);
+          return;
         }
       } else {
         console.log('[SOCKET] ❌ Error no manejado o sin refresh token');
-        client.disconnect();
+        client.disconnect(true);
+        return;
       }
     }
+  }
   }
 
   handleDisconnect(client: AuthenticatedSocket) {

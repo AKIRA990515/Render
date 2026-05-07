@@ -1,6 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const isProduction = import.meta.env.PROD;
+const API_URL = isProduction 
+  ? (import.meta.env.VITE_API_URL_PROD || 'https://rofitness-backend.onrender.com')
+  : (import.meta.env.VITE_API_URL || 'http://localhost:3000');
 
 export interface User {
   id: string;

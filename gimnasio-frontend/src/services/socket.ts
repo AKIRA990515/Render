@@ -1,6 +1,12 @@
 import { io, Socket } from 'socket.io-client';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const isProduction = import.meta.env.PROD;
+const API_URL = isProduction 
+  ? (import.meta.env.VITE_API_URL_PROD || 'https://rofitness-backend.onrender.com')
+  : (import.meta.env.VITE_API_URL || 'http://localhost:3000');
+
+console.log('[SOCKET] Modo:', isProduction ? 'PRODUCCIÓN' : 'DESARROLLO');
+console.log('[SOCKET] Backend URL:', API_URL);
 
 let socketInstance: Socket | null = null;
 

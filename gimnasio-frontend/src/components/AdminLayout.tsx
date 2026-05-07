@@ -12,7 +12,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailIcon from '@mui/icons-material/Email';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeContext';
 
 const SIDEBAR_WIDTH = 240;

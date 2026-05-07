@@ -176,10 +176,12 @@ export default function UserLayout() {
           anchor="left"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          PaperProps={{
-            sx: {
-              width: SIDEBAR_WIDTH,
-              bgcolor: theme.palette.background.paper,
+          slotProps={{
+            paper: {
+              sx: {
+                width: SIDEBAR_WIDTH,
+                bgcolor: theme.palette.background.paper,
+              },
             },
           }}
         >

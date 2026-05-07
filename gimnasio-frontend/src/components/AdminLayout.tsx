@@ -82,6 +82,8 @@ export default function AdminLayout() {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const color = useColor(true, isDark);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* HEADER */}
@@ -169,10 +171,12 @@ export default function AdminLayout() {
           anchor="left"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          PaperProps={{
-            sx: {
-              width: SIDEBAR_WIDTH,
-              bgcolor: theme.palette.background.paper,
+          slotProps={{
+            paper: {
+              sx: {
+                width: SIDEBAR_WIDTH,
+                bgcolor: theme.palette.background.paper,
+              },
             },
           }}
         >

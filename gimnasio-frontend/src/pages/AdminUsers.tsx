@@ -33,7 +33,7 @@ export default function AdminUsers() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [formData, setFormData] = useState<{ name: string; email: string; role: 'member' | 'instructor' | 'admin'; password: string }>({ name: '', email: '', role: 'member', password: '' });
+  const [formData, setFormData] = useState<{ name: string; email: string; role: 'member' | 'instructor' | 'admin'; password: string; isActive: boolean; updatedAt: string }>({ name: '', email: '', role: 'member', password: '', isActive: true, updatedAt: new Date().toISOString() });
   const [error, setError] = useState('');
 
   const fetchUsers = async () => {
@@ -55,10 +55,10 @@ export default function AdminUsers() {
   const handleOpenDialog = (user?: User) => {
     if (user) {
       setSelectedUser(user);
-      setFormData({ name: user.name, email: user.email, role: user.role as 'member' | 'instructor' | 'admin', password: '' });
+      setFormData({ name: user.name, email: user.email, role: user.role as 'member' | 'instructor' | 'admin', password: '', isActive: user.isActive, updatedAt: user.updatedAt });
     } else {
       setSelectedUser(null);
-      setFormData({ name: '', email: '', role: 'member', password: '' });
+      setFormData({ name: '', email: '', role: 'member', password: '', isActive: true, updatedAt: new Date().toISOString() });
     }
     setError('');
     setDialogOpen(true);

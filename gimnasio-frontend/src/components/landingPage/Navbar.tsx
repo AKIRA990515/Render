@@ -138,7 +138,7 @@ export default function Navbar() {
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        Paper={{
+        PaperProps={{
           sx: {
             width: '100%',
             maxWidth: 300,

@@ -165,7 +165,7 @@ export default function AdminLayout() {
           anchor="left"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          Paper={{
+          PaperProps={{
             sx: {
               width: SIDEBAR_WIDTH,
               bgcolor: theme.palette.background.paper,

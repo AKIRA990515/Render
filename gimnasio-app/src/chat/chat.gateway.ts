@@ -158,7 +158,6 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       }
     }
   }
-  }
 
   handleDisconnect(client: AuthenticatedSocket) {
     this.connectedUsers.delete(client.id);

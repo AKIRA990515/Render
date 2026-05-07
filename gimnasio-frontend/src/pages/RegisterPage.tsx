@@ -34,9 +34,9 @@ export default function RegisterPage() {
       await register(name, email, password, phone);
       setSuccess(true);
       setTimeout(() => navigate('/login', { replace: true }), 1500);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error registro:', err);
-      setError(err?.response?.data?.message || err?.message || 'Error al registrar');
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || (err as { message?: string })?.message || 'Error al registrar');
     } finally {
       setLoading(false);
     }

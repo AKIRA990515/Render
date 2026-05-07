@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -60,7 +60,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as any;
+    const originalRequest = error.config as InternalAxiosRequestConfig;
     if (error.response?.status === 401 && originalRequest) {
       const refreshToken = localStorage.getItem('refreshToken');
       if (refreshToken) {

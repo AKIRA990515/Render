@@ -69,12 +69,12 @@ export default function AdminUsers() {
       if (selectedUser) {
         await usersApi.update(selectedUser.id, formData);
       } else {
-        await usersApi.create({ ...formData, createdAt: '' } as any);
+        await usersApi.create({ ...formData, password: formData.password || 'Password123!' });
       }
       setDialogOpen(false);
       fetchUsers();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Error guardando usuario');
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error guardando usuario');
     }
   };
 

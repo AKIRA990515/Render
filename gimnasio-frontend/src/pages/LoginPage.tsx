@@ -18,9 +18,9 @@ export default function LoginPage() {
     try {
       await login(email, password);
       navigate('/user/profile', { replace: true });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error login:', err);
-      setError(err?.response?.data?.message || err?.message || 'Credenciales inválidas');
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || (err as { message?: string })?.message || 'Credenciales inválidas');
     } finally {
       setLoading(false);
     }

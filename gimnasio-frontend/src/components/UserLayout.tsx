@@ -20,40 +20,28 @@ const SIDEBAR_WIDTH = 240;
 const HEADER_HEIGHT = 64;
 const FOOTER_HEIGHT = 64;
 
-export default function UserLayout() {
+function SidebarContent({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const { logout, isAdmin } = useAuth();
-  const { isDark, toggleTheme } = useThemeMode();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const getPageTitle = () => {
-    const path = location.pathname;
-    if (path.includes('profile')) return 'Mi Perfil';
-    if (path.includes('chat')) return 'Chat Grupal';
-    return 'RoFitness';
-  };
+  const color = theme.palette.primary.main;
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
-  const color = theme.palette.primary.main;
-
-  const SidebarContent = () => (
+  return (
     <>
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => { navigate('/user/profile'); setDrawerOpen(false); }}>
+          <ListItemButton onClick={() => { navigate('/user/profile'); onClose(); }}>
             <ListItemIcon sx={{ color }}><PersonIcon /></ListItemIcon>
             <ListItemText primary="Mi Perfil" sx={{ color: theme.palette.text.primary }} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => { navigate('/user/chat'); setDrawerOpen(false); }}>
+          <ListItemButton onClick={() => { navigate('/user/chat'); onClose(); }}>
             <ListItemIcon sx={{ color }}><ChatIcon /></ListItemIcon>
             <ListItemText primary="Chat Grupal" sx={{ color: theme.palette.text.primary }} />
           </ListItemButton>
@@ -65,7 +53,7 @@ export default function UserLayout() {
             fullWidth
             variant="contained"
             startIcon={<DashboardIcon />}
-            onClick={() => { navigate('/admin/dashboard'); setDrawerOpen(false); }}
+            onClick={() => { navigate('/admin/dashboard'); onClose(); }}
             sx={{
               bgcolor: theme.palette.error.main,
               '&:hover': { bgcolor: theme.palette.error.dark },
@@ -76,13 +64,30 @@ export default function UserLayout() {
         </Box>
       )}
       <Box sx={{ mt: 'auto', p: 2 }}>
-        <ListItemButton onClick={() => { handleLogout(); setDrawerOpen(false); }}>
+        <ListItemButton onClick={() => { handleLogout(); onClose(); }}>
           <ListItemIcon sx={{ color: '#f44336' }}><LogoutIcon /></ListItemIcon>
           <ListItemText primary="Cerrar sesión" sx={{ color: '#f44336' }} />
         </ListItemButton>
       </Box>
     </>
   );
+}
+
+export default function UserLayout() {
+  const location = useLocation();
+  const { isDark, toggleTheme } = useThemeMode();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const color = theme.palette.primary.main;
+
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path.includes('profile')) return 'Mi Perfil';
+    if (path.includes('chat')) return 'Chat Grupal';
+    return 'RoFitness';
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -162,7 +167,7 @@ export default function UserLayout() {
               overflow: 'auto',
             }}
           >
-            <SidebarContent />
+            <SidebarContent onClose={() => setDrawerOpen(false)} />
           </Box>
         )}
 
@@ -183,7 +188,7 @@ export default function UserLayout() {
               <CloseIcon />
             </IconButton>
           </Box>
-          <SidebarContent />
+          <SidebarContent onClose={() => setDrawerOpen(false)} />
         </Drawer>
 
         {/* MAIN */}

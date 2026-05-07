@@ -12,8 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailIcon from '@mui/icons-material/Email';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Outlet } from 'react-router-dom';
 import { useThemeMode } from '../context/ThemeContext';
 
 const SIDEBAR_WIDTH = 240;
@@ -27,14 +26,11 @@ const useColor = (isAdmin: boolean, isDark: boolean) => {
   return isDark ? '#4ADE80' : '#16A34A';
 };
 
-export default function AdminLayout() {
+function SidebarContent({ onClose }: { onClose: () => void }) {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const { isDark, toggleTheme } = useThemeMode();
+  const { isDark } = useThemeMode();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
   const color = useColor(true, isDark);
 
   const handleLogout = () => {
@@ -42,17 +38,17 @@ export default function AdminLayout() {
     navigate('/login');
   };
 
-  const SidebarContent = () => (
+  return (
     <>
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => { navigate('/admin/dashboard'); setDrawerOpen(false); }}>
+          <ListItemButton onClick={() => { navigate('/admin/dashboard'); onClose(); }}>
             <ListItemIcon sx={{ color }}><DashboardIcon /></ListItemIcon>
             <ListItemText primary="Dashboard" sx={{ color: theme.palette.text.primary }} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => { navigate('/admin/users'); setDrawerOpen(false); }}>
+          <ListItemButton onClick={() => { navigate('/admin/users'); onClose(); }}>
             <ListItemIcon sx={{ color }}><PeopleIcon /></ListItemIcon>
             <ListItemText primary="Usuarios" sx={{ color: theme.palette.text.primary }} />
           </ListItemButton>
@@ -63,20 +59,27 @@ export default function AdminLayout() {
           fullWidth
           variant="outlined"
           startIcon={<PersonIcon />}
-          onClick={() => { navigate('/user/profile'); setDrawerOpen(false); }}
+          onClick={() => { navigate('/user/profile'); onClose(); }}
           sx={{ color, borderColor: color }}
         >
           Mi Perfil
         </Button>
       </Box>
       <Box sx={{ mt: 'auto', p: 2 }}>
-        <ListItemButton onClick={() => { handleLogout(); setDrawerOpen(false); }}>
+        <ListItemButton onClick={() => { handleLogout(); onClose(); }}>
           <ListItemIcon sx={{ color: '#f44336' }}><LogoutIcon /></ListItemIcon>
           <ListItemText primary="Cerrar sesión" sx={{ color: '#f44336' }} />
         </ListItemButton>
       </Box>
     </>
   );
+}
+
+export default function AdminLayout() {
+  const { isDark, toggleTheme } = useThemeMode();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -156,7 +159,7 @@ export default function AdminLayout() {
               overflow: 'auto',
             }}
           >
-            <SidebarContent />
+            <SidebarContent onClose={() => setDrawerOpen(false)} />
           </Box>
         )}
 
@@ -177,7 +180,7 @@ export default function AdminLayout() {
               <CloseIcon />
             </IconButton>
           </Box>
-          <SidebarContent />
+          <SidebarContent onClose={() => setDrawerOpen(false)} />
         </Drawer>
 
         {/* MAIN */}

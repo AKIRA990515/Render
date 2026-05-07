@@ -29,9 +29,18 @@ export default function ProfilePage() {
   const [success, setSuccess] = useState('');
 
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    phone: user?.phone || '',
+    name: '',
+    phone: '',
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || '',
+        phone: user.phone || '',
+      });
+    }
+  }, [user]);
 
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
   const [passwordData, setPasswordData] = useState({
@@ -90,8 +99,8 @@ export default function ProfilePage() {
         localStorage.setItem('user', JSON.stringify(updatedUser));
         setUser(updatedUser);
         setSuccess('Avatar actualizado correctamente');
-      } catch (err: any) {
-        setError(err?.response?.data?.message || 'Error al actualizar el avatar');
+      } catch (err: unknown) {
+        setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al actualizar el avatar');
       } finally {
         setSavingAvatar(false);
       }
@@ -118,8 +127,8 @@ export default function ProfilePage() {
       setUser(updatedUser);
       setSuccess('Perfil actualizado correctamente');
       setIsEditing(false);
-    } catch (err: any) {
-      setError(err?.response?.data?.message || 'Error al actualizar el perfil');
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al actualizar el perfil');
     } finally {
       setSavingProfile(false);
     }
@@ -138,8 +147,8 @@ export default function ProfilePage() {
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
       setSuccess(newStatus ? 'Usuario activado' : 'Usuario desactivado');
-    } catch (err: any) {
-      setError(err?.response?.data?.message || 'Error al cambiar el estado');
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al cambiar el estado');
     } finally {
       setLoading(false);
     }
@@ -170,14 +179,20 @@ export default function ProfilePage() {
       setSuccess('Contraseña actualizada correctamente');
       setPasswordDialogOpen(false);
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    } catch (err: any) {
-      setError(err?.response?.data?.message || 'Error al cambiar la contraseña');
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al cambiar la contraseña');
     } finally {
       setSavingPassword(false);
     }
   };
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <Container maxWidth={false} sx={{ width: '100%', maxWidth: 900, height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   const roleInfo = getRoleLabel(user.role);
 
